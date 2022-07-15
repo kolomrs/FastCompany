@@ -1,9 +1,11 @@
 import React from "react";
 
 const Bookmark = ({ status, ...rest }) => {
+  console.log(status);
   if (status === false) {
+    
     return (
-      <button onClick={() => rest.onToggle(rest._Id)}>
+      <button onClick={() => rest.onToggle(rest.usId)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -18,7 +20,7 @@ const Bookmark = ({ status, ...rest }) => {
     );
   } else {
     return (
-      <button onClick={() => rest.onToggle(rest._Id)}>
+      <button onClick={() => rest.onToggle(rest.usId)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
