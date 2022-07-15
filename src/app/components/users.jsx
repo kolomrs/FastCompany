@@ -13,12 +13,18 @@ const Users = ({ users, ...rest }) => {
               <th scope="col">Профессия</th>
               <th scope="col">Встретился, раз</th>
               <th scope="col">Оценка</th>
-              <th />
+              <th scope="col">Избранное</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
-              <User key={user._id} {...user} />
+              <User
+                key={user._id}
+                {...user}
+                {...{ rest }}
+                important={rest.onToggle}
+              />
             ))}
           </tbody>
         </table>

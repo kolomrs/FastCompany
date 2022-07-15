@@ -18,12 +18,21 @@ const User = ({
         <td>{name}</td>
         <td>
           {qualities.map((qual) => (
-            <Qualities {...qual} />
+            <Qualities key={_id} {...qual} />
           ))}
         </td>
         <td>{profession.name}</td>
         <td>{completedMeetings}</td>
         <td>{rate} /5</td>
+        <td>
+          {
+            <BookMark
+              status={rest.bookmark}
+              onToggle={rest.important}
+              usId={rest.id}
+            />
+          }
+        </td>
         <td>
           <button onClick={() => rest.onDelete(_id)} className="btn btn-danger">
             delete

@@ -8,13 +8,17 @@ function App () {
   const handleDelete = (userId) => {
     setUsers(users.filter((user) => user._id !== userId));
   };
-  // const handleToggleBookMark = (id) => {
-
-  // };
+  const handleToggleBookMark = (id) => {
+    setUsers(users.map(mark=>{
+      if(mark._id===id) {
+        return {...mark, bookmark: !mark.bookmark}
+      } else return mark
+    }))
+  };
   return (
     <>
       <SearchStatus length={users.length}/>
-      <Users users={users} onDelete = {handleDelete} />
+      <Users users={users} onDelete = {handleDelete} onToggle={handleToggleBookMark}/>
     </>
 
   );
