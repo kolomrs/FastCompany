@@ -25,13 +25,7 @@ const User = ({
         <td>{completedMeetings}</td>
         <td>{rate} /5</td>
         <td>
-          {
-            <BookMark
-              status={rest.bookmark}
-              onToggle={rest.onToggle}
-              usId={_id}
-            />
-          }
+          {<BookMark status={bookmark} onToggle={rest.onToggle} usId={_id} />}
         </td>
         <td>
           <button onClick={() => rest.onDelete(_id)} className="btn btn-danger">
