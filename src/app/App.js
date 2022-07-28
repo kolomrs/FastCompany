@@ -22,11 +22,11 @@ function App() {
     };
     return (
         <>
-            <Users
+            { users && <Users
                 users={users}
                 onDelete={handleDelete}
                 onToggle={handleToggleBookMark}
-            />
+            />}
         </>
     );
 }
