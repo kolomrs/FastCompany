@@ -12,6 +12,13 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             onSort({ path: item, order: "asc" });
         }
     };
+    // const caret = (selectedSort) => {
+    //     if (selectedSort.order === "asc") {
+    //         className = "bi bi-caret-up-fill";
+    //     } else {
+    //         className = "bi bi-caret-down-fill";
+    //     }
+    // };
     return (
         <thead>
             <tr>
