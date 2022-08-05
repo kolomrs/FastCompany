@@ -2,18 +2,16 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { paginate } from "../utils/paginate";
 import Pagination from "./pagination";
-import UserTable from "./usersTable";
 import api from "../api";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
+import UserTable from "./usersTable";
 import _ from "lodash";
-
 const Users = ({ users: allUsers, ...rest }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
-
     const pageSize = 7;
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data));
@@ -42,7 +40,7 @@ const Users = ({ users: allUsers, ...rest }) => {
 
     const count = filteredUsers.length;
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
-    const userCrop = paginate(sortedUsers, currentPage, pageSize);
+    const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
         setSelectedProf();
     };
@@ -69,9 +67,9 @@ const Users = ({ users: allUsers, ...rest }) => {
                 <SearchStatus length={count} />
                 {count > 0 && (
                     <UserTable
-                        users={userCrop}
-                        selectedSort={sortBy}
+                        users={usersCrop}
                         onSort={handleSort}
+                        selectedSort={sortBy}
                         {...rest}
                     />
                 )}

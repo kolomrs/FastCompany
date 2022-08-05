@@ -43,7 +43,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                 <th onClick={() => handleSort("bookmark")} scope="col">
                     Избранное
                 </th>
-                <th></th> */}
+                <th /> */}
             </tr>
         </thead>
     );
@@ -53,5 +53,4 @@ TableHeader.propTypes = {
     selectedSort: PropTypes.object.isRequired,
     columns: PropTypes.object.isRequired
 };
-
 export default TableHeader;

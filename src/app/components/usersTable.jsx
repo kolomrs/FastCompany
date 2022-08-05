@@ -9,17 +9,17 @@ const UserTable = ({
     users,
     onSort,
     selectedSort,
-    onToggle,
+    onToggleBookMark,
     onDelete,
     ...rest
 }) => {
     const columns = {
         name: { path: "name", name: "Имя" },
         qualities: { name: "Качества" },
-        professions: { path: "profession.name", name: "Профессия" },
+        profession: { path: "profession.name", name: "Профессия" },
         completedMeetings: {
             path: "completedMeetings",
-            name: "Встретился, раз"
+            name: "Встретился раз"
         },
         rate: { path: "rate", name: "Оценка" },
         bookmark: {
@@ -28,15 +28,14 @@ const UserTable = ({
             component: (user) => (
                 <BookMark
                     status={user.bookmark}
-                    onToggle={rest.onToggle}
-                    usId={user._id}
+                    onClick={() => onToggleBookMark(user._id)}
                 />
             )
         },
         delete: {
             component: (user) => (
                 <button
-                    onClick={() => rest.onDelete(user._id)}
+                    onClick={() => onDelete(user._id)}
                     className="btn btn-danger"
                 >
                     delete
@@ -50,18 +49,18 @@ const UserTable = ({
             <TableBody {...{ columns, data: users }} />
             {/* <tbody>
                 {users.map((user) => (
-                    <User key={user._id} {...user} {...{ rest }} />
+                    <User {...rest} {...user} key={user._id} />
                 ))}
             </tbody> */}
         </table>
     );
 };
+
 UserTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
-    onToggle: PropTypes.func.isRequired,
+    onToggleBookMark: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired
 };
-
 export default UserTable;
