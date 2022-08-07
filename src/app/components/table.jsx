@@ -5,7 +5,7 @@ import TableHeader from "./tableHeader";
 
 const Table = ({ onSort, selectedSort, columns, data, children }) => {
     return (
-        <table className="table ">
+        <table className="table">
             {children || (
                 <>
                     <TableHeader {...{ onSort, selectedSort, columns }} />
@@ -22,4 +22,5 @@ Table.propTypes = {
     data: PropTypes.array,
     children: PropTypes.array
 };
+
 export default Table;
