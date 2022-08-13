@@ -1,6 +1,6 @@
 import React from "react";
 import Users from "./components/users";
-import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import NavBar from "./components/navBar";
 import Login from "./layouts/login";
 import Main from "./layouts/main";
@@ -9,7 +9,6 @@ import UsersLayout from "./components/usersLayout";
 function App() {
     return (
         <div>
-        <BrowserRouter>
             <NavBar />
             <Switch>
                 <Route path="/users/" exact component={Users} />
@@ -22,8 +21,7 @@ function App() {
                 />
                 <Redirect to="/" />
             </Switch>
-        </BrowserRouter>
-    </div>
+        </div>
     );
 }
 

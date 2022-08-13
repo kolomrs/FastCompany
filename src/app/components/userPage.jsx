@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import API from "../api";
 import { useHistory } from "react-router-dom";
@@ -13,8 +13,13 @@ const UserPage = ({ userId }) => {
         });
     }, []);
     const handleBackToUserList = () => {
-        history.push(".users");
+        history.push("/users");
     };
+    console.log(user);
+
+    if (!user) {
+        return <h1>Загрузка...</h1>;
+    }
     return (
         <>
             (
@@ -35,7 +40,7 @@ const UserPage = ({ userId }) => {
                             handleBackToUserList();
                         }}
                     >
-                        Все пользователи
+                        Назад
                     </button>
                 </div>
             </div>
@@ -43,7 +48,9 @@ const UserPage = ({ userId }) => {
         </>
     );
 };
+
 UserPage.propTypes = {
     userId: PropTypes.string.isRequired
 };
+
 export default UserPage;
