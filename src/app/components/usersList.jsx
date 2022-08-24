@@ -12,9 +12,10 @@ const UsersList = () => {
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const pageSize = 8;
-
+    const [searchUser, setSearchUser] = useState("");
     const [users, setUsers] = useState();
+
+    const pageSize = 8;
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
@@ -40,6 +41,7 @@ const UsersList = () => {
     }, [selectedProf]);
 
     const handleProfessionSelect = (item) => {
+        if (searchUser !== "") setSearchUser("");
         setSelectedProf(item);
     };
 
@@ -49,9 +51,22 @@ const UsersList = () => {
     const handleSort = (item) => {
         setSortBy(item);
     };
+    // const searchFilterUsers = users.filter((user) => {
+    //     return user.name.toLowerCase().includes(searchUser.toLowerCase());
+    // });
+    const searchQuery = (event) => {
+        setSelectedProf(undefined);
+        setSearchUser(event.target.value);
+    };
 
     if (users) {
-        const filteredUsers = selectedProf
+        const filteredUsers = searchUser
+            ? users.filter((user) => {
+                  return user.name
+                      .toLowerCase()
+                      .includes(searchUser.toLowerCase());
+              })
+            : selectedProf
             ? users.filter(
                   (user) =>
                       JSON.stringify(user.profession) ===
@@ -84,12 +99,20 @@ const UsersList = () => {
                             onClick={clearFilter}
                         >
                             {" "}
-                            Очиститть
+                            Очистить
                         </button>
                     </div>
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Search people..."
+                            className="form-control w-100"
+                            onChange={searchQuery}
+                        />
+                    </div>
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}
@@ -99,6 +122,7 @@ const UsersList = () => {
                             onToggleBookMark={handleToggleBookMark}
                         />
                     )}
+
                     <div className="d-flex justify-content-center">
                         <Pagination
                             itemsCount={count}
