@@ -38,7 +38,7 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchUser]);
 
     const handleProfessionSelect = (item) => {
         if (searchUser !== "") setSearchUser("");
@@ -111,6 +111,7 @@ const UsersList = () => {
                             placeholder="Search people..."
                             className="form-control w-100"
                             onChange={searchQuery}
+                            value={searchUser}
                         />
                     </div>
                     {count > 0 && (
