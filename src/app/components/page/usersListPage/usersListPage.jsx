@@ -1,88 +1,85 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { paginate } from "../../../utils/paginate";
 import Pagination from "../../common/pagination";
-import api from "../../../api";
+import { paginate } from "../../../utils/paginate";
+import PropTypes from "prop-types";
 import GroupList from "../../common/groupList";
+import api from "../../../api";
 import SearchStatus from "../../ui/searchStatus";
-import UserTable from "../../ui/usersTable";
+import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
+
 const UsersListPage = () => {
+    const [professions, setProfessions] = useState();
+    const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfession] = useState();
-    const [searchQuery, setSearchQuery] = useState("");
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const pageSize = 8;
-
     const [users, setUsers] = useState();
+    const [searchUser, setSearchUser] = useState("");
+
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
+
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
+
     const handleToggleBookMark = (id) => {
-        const newArray = users.map((user) => {
-            if (user._id === id) {
-                return { ...user, bookmark: !user.bookmark };
-            }
-            return user;
-        });
-        setUsers(newArray);
+        setUsers(
+            users.map((mark) => {
+                if (mark._id === id) {
+                    return { ...mark, bookmark: !mark.bookmark };
+                } else {
+                    return mark;
+                }
+            })
+        );
     };
 
     useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfession(data));
+        api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
-
     useEffect(() => {
         setCurrentPage(1);
-<<<<<<< HEAD:src/app/components/page/usersListPage/usersListPage.jsx
-    }, [selectedProf, searchQuery]);
-=======
     }, [selectedProf, searchUser]);
->>>>>>> e7732710c46a2d8022efb1049d4dcb79efd3f647:src/app/components/usersList.jsx
 
-    const handleProfessionSelect = (item) => {
-        if (searchQuery !== "") setSearchQuery("");
-        setSelectedProf(item);
-    };
-    const handleSearchQuery = ({ target }) => {
+    const handleSearch = ({ target }) => {
         setSelectedProf(undefined);
-        setSearchQuery(target.value);
+        setSearchUser(target.value);
     };
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
+
+    const handleProfessionSelect = (item) => {
+        setSelectedProf(item);
+    };
+
     const handleSort = (item) => {
         setSortBy(item);
     };
 
     if (users) {
-        const filteredUsers = searchQuery
-            ? users.filter(
-                  (user) =>
-                      user.name
-                          .toLowerCase()
-                          .indexOf(searchQuery.toLowerCase()) !== -1
-              )
-            : selectedProf
+        const filteredUsers = selectedProf
             ? users.filter(
                   (user) =>
                       JSON.stringify(user.profession) ===
                       JSON.stringify(selectedProf)
               )
+            : users
+            ? users.filter((user) =>
+                  user.name.toLowerCase().includes(searchUser.toLowerCase())
+              )
             : users;
-
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
             filteredUsers,
             [sortBy.path],
             [sortBy.order]
         );
-        const usersCrop = paginate(sortedUsers, currentPage, pageSize);
+        const userCrop = paginate(sortedUsers, currentPage, pageSize);
         const clearFilter = () => {
             setSelectedProf();
         };
@@ -100,39 +97,26 @@ const UsersListPage = () => {
                             className="btn btn-secondary mt-2"
                             onClick={clearFilter}
                         >
-                            {" "}
-                            Очистить
+                            Все пользователи
                         </button>
                     </div>
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-<<<<<<< HEAD:src/app/components/page/usersListPage/usersListPage.jsx
                     <input
                         type="text"
                         name="searchQuery"
                         placeholder="Search..."
-                        onChange={handleSearchQuery}
-                        value={searchQuery}
+                        value={searchUser}
+                        onChange={handleSearch}
                     />
-=======
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Search people..."
-                            className="form-control w-100"
-                            onChange={searchQuery}
-                            value={searchUser}
-                        />
-                    </div>
->>>>>>> e7732710c46a2d8022efb1049d4dcb79efd3f647:src/app/components/usersList.jsx
                     {count > 0 && (
-                        <UserTable
-                            users={usersCrop}
-                            onSort={handleSort}
-                            selectedSort={sortBy}
+                        <UsersTable
+                            users={userCrop}
                             onDelete={handleDelete}
                             onToggleBookMark={handleToggleBookMark}
+                            selectedSort={sortBy}
+                            onSort={handleSort}
                         />
                     )}
                     <div className="d-flex justify-content-center">
@@ -147,8 +131,17 @@ const UsersListPage = () => {
             </div>
         );
     }
-    return "loading...";
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 200
+            }}
+        ></div>
+    );
 };
+
 UsersListPage.propTypes = {
     users: PropTypes.array
 };
