@@ -18,7 +18,7 @@ const EditUserPage = () => {
         qualities: []
     });
     const [qualities, setQualities] = useState([]);
-    const [professions, setProfession] = useState();
+    const [professions, setProfession] = useState([]);
     const [errors, setErrors] = useState({});
 
     const getProfessionById = (id) => {
