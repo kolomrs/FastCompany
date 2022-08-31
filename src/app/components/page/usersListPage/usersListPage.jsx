@@ -38,7 +38,11 @@ const UsersListPage = () => {
 
     useEffect(() => {
         setCurrentPage(1);
+<<<<<<< HEAD:src/app/components/page/usersListPage/usersListPage.jsx
     }, [selectedProf, searchQuery]);
+=======
+    }, [selectedProf, searchUser]);
+>>>>>>> e7732710c46a2d8022efb1049d4dcb79efd3f647:src/app/components/usersList.jsx
 
     const handleProfessionSelect = (item) => {
         if (searchQuery !== "") setSearchQuery("");
@@ -103,6 +107,7 @@ const UsersListPage = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+<<<<<<< HEAD:src/app/components/page/usersListPage/usersListPage.jsx
                     <input
                         type="text"
                         name="searchQuery"
@@ -110,6 +115,17 @@ const UsersListPage = () => {
                         onChange={handleSearchQuery}
                         value={searchQuery}
                     />
+=======
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Search people..."
+                            className="form-control w-100"
+                            onChange={searchQuery}
+                            value={searchUser}
+                        />
+                    </div>
+>>>>>>> e7732710c46a2d8022efb1049d4dcb79efd3f647:src/app/components/usersList.jsx
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}
