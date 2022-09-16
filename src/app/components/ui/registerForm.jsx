@@ -46,7 +46,7 @@ const RegisterForm = () => {
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
             const professionsList = Object.keys(data).map((professionName) => ({
-                label: data[professionName].name,
+                name: data[professionName].name,
                 value: data[professionName]._id
             }));
             setProfession(professionsList);
