@@ -9,7 +9,7 @@ export const useQualities = () => {
     return useContext(QualitieContext);
 };
 
-export const QualitiesProvider = ({ children }) => {
+export const QualitiyProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const [qualities, setQualities] = useState([]);
     const [error, setError] = useState(null);
@@ -28,12 +28,12 @@ export const QualitiesProvider = ({ children }) => {
         setError(message);
     }
     function getQualities(id) {
-        return qualities.find((p) => p._id === id);
+        return qualities.find((q) => q._id === id);
     }
 
     async function getQualitiesList() {
         try {
-            const { content } = await qualityService.get();
+            const { content } = await qualityService.fetchAll();
             setQualities(content);
             setLoading(false);
         } catch (error) {
@@ -50,7 +50,7 @@ export const QualitiesProvider = ({ children }) => {
     );
 };
 
-QualitiesProvider.propTypes = {
+QualitiyProvider.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
