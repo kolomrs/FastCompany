@@ -1,9 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router";
-
+import { useHistory } from "react-router-dom";
 const BackHistoryButton = () => {
     const history = useHistory();
-    console.log(history);
     return (
         <button className="btn btn-primary" onClick={() => history.goBack()}>
             <i className="bi bi-caret-left"></i>

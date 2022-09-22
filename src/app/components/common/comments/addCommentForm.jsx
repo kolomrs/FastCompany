@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import api from "../../../api";
+import React, { useEffect, useState } from "react";
+import API from "../../../api";
 import SelectField from "../form/selectField";
+import TextAreaField from "../form/textAreaField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
-import TextAreaField from "../form/textAreaField";
-
 const initialData = { userId: "", content: "" };
 
 const AddCommentForm = ({ onSubmit }) => {
@@ -29,14 +28,14 @@ const AddCommentForm = ({ onSubmit }) => {
             }
         }
     };
+
     const validate = () => {
         const errors = validator(data, validatorConfig);
-
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
     useEffect(() => {
-        api.users.fetchAll().then(setUsers);
+        API.users.fetchAll().then(setUsers);
     }, []);
     const clearForm = () => {
         setData(initialData);
@@ -57,7 +56,7 @@ const AddCommentForm = ({ onSubmit }) => {
         }));
     return (
         <div>
-            <h2>New Comment</h2>
+            <h2>New comment</h2>
             <form onSubmit={handleSubmit}>
                 <SelectField
                     onChange={handleChange}

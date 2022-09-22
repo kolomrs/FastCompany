@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
 import { orderBy } from "lodash";
+import React, { useEffect, useState } from "react";
 import api from "../../api";
-import CommentsList from "../common/comments/commentsList";
-import AddCommentForm from "../common/comments/addCommentForm";
 import { useParams } from "react-router-dom";
+import CommentsList, { AddCommentForm } from "../common/comments";
 
 const Comments = () => {
     const { userId } = useParams();
