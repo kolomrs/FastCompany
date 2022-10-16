@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import userService from "../services/user.service";
 import localStorageService, {
-    getAccessToken,
     setTokens
 } from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
@@ -121,15 +120,10 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }
-    async function editUser({ _id, email, password, ...rest }) {
+    async function editUser(data) {
         try {
-            const { data } = await httpAuth.post("accounts:update", {
-                idToken: getAccessToken(),
-                email,
-                password,
-                returnSecureToken: true
-            });
-            setTokens(data);
+            const { content } = await userService.patch(data);
+            setUser(content);
         } catch (error) {
             errorCatcher(error);
         }

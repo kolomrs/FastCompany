@@ -12,7 +12,7 @@ const LoginForm = () => {
         stayOn: false
     });
     const history = useHistory();
-    const { logIn } = useAuth();
+    const { signIn } = useAuth();
     const [errors, setErrors] = useState({});
     const [enterError, setEnterError] = useState(null);
     const handleChange = (target) => {
@@ -51,7 +51,7 @@ const LoginForm = () => {
         if (!isValid) return;
 
         try {
-            await logIn(data);
+            await signIn(data);
 
             history.push(
                 history.location.state
