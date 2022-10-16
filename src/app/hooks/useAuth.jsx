@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import userService from "../services/user.service";
 import localStorageService, {
+    getAccessToken,
     setTokens
 } from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
@@ -26,7 +27,7 @@ const AuthProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
 
-    async function logIn({ email, password }) {
+    async function signIn({ email, password }) {
         try {
             const { data } = await httpAuth.post(
                 `accounts:signInWithPassword`,
@@ -120,6 +121,19 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }
+    async function editUser({ _id, email, password, ...rest }) {
+        try {
+            const { data } = await httpAuth.post("accounts:update", {
+                idToken: getAccessToken(),
+                email,
+                password,
+                returnSecureToken: true
+            });
+            setTokens(data);
+        } catch (error) {
+            errorCatcher(error);
+        }
+    }
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
             getUserData();
@@ -134,7 +148,9 @@ const AuthProvider = ({ children }) => {
         }
     }, [error]);
     return (
-        <AuthContext.Provider value={{ signUp, logIn, currentUser, logOut }}>
+        <AuthContext.Provider
+            value={{ signUp, signIn, currentUser, logOut, editUser }}
+        >
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
     );
