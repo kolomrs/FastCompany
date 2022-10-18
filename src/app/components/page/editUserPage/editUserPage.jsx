@@ -14,12 +14,8 @@ const EditUserPage = () => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-    const { currentUser, editUser } = useAuth();
-    const {
-        qualities,
-        isLoading: qualitiesLoading,
-        getQuality
-    } = useQualities();
+    const { currentUser, updateUserData } = useAuth();
+    const { qualities, isLoading: qualitiesLoading } = useQualities();
     const qualitiesList = qualities.map((q) => ({
         label: q.name,
         value: q._id
@@ -35,22 +31,37 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        await editUser({
+        await updateUserData({
             ...data,
             qualities: data.qualities.map((q) => q.value)
         });
 
-        history.push("/");
+        history.push(`/users/${currentUser._id}`);
     };
-
+    function getQualitiesListByIds(qualitiesIds) {
+        const qualitiesArray = [];
+        for (const qualId of qualitiesIds) {
+            for (const quality of qualities) {
+                if (quality._id === qualId) {
+                    qualitiesArray.push(quality);
+                    break;
+                }
+            }
+        }
+        return qualitiesArray;
+    }
+    const transformData = (data) => {
+        const result = getQualitiesListByIds(data).map((qual) => ({
+            label: qual.name,
+            value: qual._id
+        }));
+        return result;
+    };
     useEffect(() => {
         if (!professionLoading && !qualitiesLoading && currentUser && !data) {
             setData({
                 ...currentUser,
-                qualities: currentUser.qualities.map((id) => ({
-                    label: getQuality(id)?.name,
-                    value: id
-                }))
+                qualities: transformData(currentUser.qualities)
             });
         }
     }, [professionLoading, qualitiesLoading, currentUser, data]);

@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
 
-    async function signIn({ email, password }) {
+    async function SingIn({ email, password }) {
         try {
             const { data } = await httpAuth.post(
                 `accounts:signInWithPassword`,
@@ -62,6 +62,14 @@ const AuthProvider = ({ children }) => {
     }
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    async function updateUserData(data) {
+        try {
+            const { content } = await userService.update(data);
+            setUser(content);
+        } catch (error) {
+            errorCatcher(error);
+        }
     }
     async function signUp({ email, password, ...rest }) {
         try {
@@ -120,14 +128,6 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }
-    async function editUser(data) {
-        try {
-            const { content } = await userService.upDate(data);
-            setUser(content);
-        } catch (error) {
-            errorCatcher(error);
-        }
-    }
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
             getUserData();
@@ -143,7 +143,7 @@ const AuthProvider = ({ children }) => {
     }, [error]);
     return (
         <AuthContext.Provider
-            value={{ signUp, signIn, currentUser, logOut, editUser }}
+            value={{ signUp, SingIn, currentUser, logOut, updateUserData }}
         >
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
