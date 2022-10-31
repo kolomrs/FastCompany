@@ -25,9 +25,9 @@ const professionsSlice = createSlice({
     }
 });
 
-const { reducer: professionsReducer, action } = professionsSlice;
+const { reducer: professionsReducer, actions } = professionsSlice;
 const { professionsRequested, professionsReceived, professionsRequestFailed } =
-    action;
+    actions;
 
 function isOutdated(date) {
     if (Date.now() - date > 10 * 60 * 1000) {
@@ -53,6 +53,7 @@ export const getProfessions = () => (state) => state.professions.entities;
 export const getProfessionsLoadingStatus = () => (state) =>
     state.professions.isLoading;
 export const getProfessionsByIds = (professionsIds) => (state) => {
+    console.log(professionsIds);
     if (state.professions.entities) {
         const professionsArray = [];
         for (const profId of professionsIds) {

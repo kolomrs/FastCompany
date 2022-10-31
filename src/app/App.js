@@ -10,11 +10,13 @@ import ProtectedRouth from "./components/common/protectedRouth";
 import LogOut from "./layouts/LogOut";
 import { useDispatch } from "react-redux";
 import { loadQualitiesList } from "./store/qualities";
+import { loadProfessionsList } from "./store/professions";
 
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadQualitiesList());
+        dispatch(loadProfessionsList());
     }, []);
     return (
         <div>
