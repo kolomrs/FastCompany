@@ -9,7 +9,7 @@ const professionsSlice = createSlice({
         error: null,
         lastFetch: null
     },
-    reducer: {
+    reducers: {
         professionsRequested: (state) => {
             state.isLoading = true;
         },
@@ -52,20 +52,25 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
 export const getProfessions = () => (state) => state.professions.entities;
 export const getProfessionsLoadingStatus = () => (state) =>
     state.professions.isLoading;
-export const getProfessionsByIds = (professionsIds) => (state) => {
-    console.log(professionsIds);
+// export const getProfessionsByIds = (professionsIds) => (state) => {
+//     console.log(professionsIds);
+//     if (state.professions.entities) {
+//         const professionsArray = [];
+//         for (const profId of professionsIds) {
+//             for (const profession of state.professions.entities) {
+//                 if (profession._id === profId) {
+//                     professionsArray.push(profession);
+//                     break;
+//                 }
+//             }
+//         }
+//         return professionsArray;
+//     }
+//     return [];
+// };
+export const getProfessionsByIds = (id) => (state) => {
     if (state.professions.entities) {
-        const professionsArray = [];
-        for (const profId of professionsIds) {
-            for (const profession of state.professions.entities) {
-                if (profession._id === profId) {
-                    professionsArray.push(profession);
-                    break;
-                }
-            }
-        }
-        return professionsArray;
+        return state.professions.entities.find((p) => p._id === id);
     }
-    return [];
 };
 export default professionsReducer;
