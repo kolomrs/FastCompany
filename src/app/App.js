@@ -11,29 +11,30 @@ import LogOut from "./layouts/LogOut";
 import { useDispatch } from "react-redux";
 import { loadQualitiesList } from "./store/qualities";
 import { loadProfessionsList } from "./store/professions";
+import { loadUsersList } from "./store/users";
 
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadQualitiesList());
         dispatch(loadProfessionsList());
+        dispatch(loadUsersList());
     }, []);
     return (
         <div>
             <AuthProvider>
                 <NavBar />
 
-                    <Switch>
-                        <ProtectedRouth
-                            path="/users/:userId?/:edit?"
-                            component={Users}
-                        />
-                        <Route path="/login/:type?" component={Login} />
-                        <Route path="/logout" component={LogOut} />
-                        <Route path="/" exact component={Main} />
-                        <Redirect to="/" />
-                    </Switch>
-
+                <Switch>
+                    <ProtectedRouth
+                        path="/users/:userId?/:edit?"
+                        component={Users}
+                    />
+                    <Route path="/login/:type?" component={Login} />
+                    <Route path="/logout" component={LogOut} />
+                    <Route path="/" exact component={Main} />
+                    <Redirect to="/" />
+                </Switch>
             </AuthProvider>
 
             <ToastContainer />
