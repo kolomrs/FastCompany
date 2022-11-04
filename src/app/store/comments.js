@@ -20,8 +20,8 @@ const commentsSlice = createSlice({
             state.error = action.payload;
             state.isLoading = false;
         },
-        removeCommentId (state, action) => {
-          state.entities.filter((c) => c._id !== action.payload.id)
+        removeCommentId: (state, action) => {
+          state.entities.filter((c) => c._id !== action.payload.id);
         }
     }
 });
@@ -41,7 +41,7 @@ export const loadCommentsList = (userId) => async (dispatch) => {
 export const removeComment = (userId) => async (dispatch) => {
   try {
     const { content } = await commentService.removeComment(userId);
-    dispatch(removeCommentId(content))
+    dispatch(removeCommentId(content));
 } catch (error) {
   dispatch(commentsRequestFailed(error.message));
 }
