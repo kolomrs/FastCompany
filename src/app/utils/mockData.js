@@ -42,7 +42,7 @@ const useMockData = () => {
                 incrementCount();
             }
             for (const user of users) {
-                await httpService.put("users/" + user._id, user);
+                await httpService.put("user/" + user._id, user);
                 incrementCount();
             }
             for (const qual of qualities) {

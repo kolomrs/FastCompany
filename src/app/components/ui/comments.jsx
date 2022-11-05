@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 import CommentsList, { AddCommentForm } from "../common/comments";
 import { useDispatch, useSelector } from "react-redux";
 import {
+    createComment,
     getComments,
     getCommentsLoadingStatus,
     loadCommentsList,
-    createCommentId,
-    removeCommentId
+    removeComment
 } from "../../store/comments";
 import { useParams } from "react-router-dom";
 
@@ -21,16 +21,15 @@ const Comments = () => {
     const comments = useSelector(getComments());
 
     const handleSubmit = (data) => {
-        createCommentId(data);
+        dispatch(createComment({ ...data, pageId: userId }));
     };
     const handleRemoveComment = (id) => {
-        removeCommentId(id);
+        dispatch(removeComment(id));
     };
     const sortedComments = orderBy(comments, ["created_at"], ["desc"]);
     return (
         <>
             <div className="card mb-2">
-                {" "}
                 <div className="card-body ">
                     <AddCommentForm onSubmit={handleSubmit} />
                 </div>
